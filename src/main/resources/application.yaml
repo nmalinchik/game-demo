@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: game
+  kafka:
+    bootstrap-servers: localhost:9092
+server:
+  port: ${PORT}
+game:
+  gamer:
+    id: ${GAMER_ID}
+  topic:
+    name: game-moves
+    group-id: movies-consumers
