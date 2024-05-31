@@ -1,13 +1,35 @@
 spring:
   application:
     name: game
+  datasource:
+    url: jdbc:postgresql://localhost:5432/game
+    username: user
+    password: password
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
   kafka:
     bootstrap-servers: localhost:9092
+
 server:
-  port: ${PORT}
+  port: ${PORT:8080}
+
+retry:
+  initial-interval: 1000 # 1 second
+  multiplier: 2
+  max-interval: 8000 # 8 seconds
+  max-attempts: 5
+
 game:
-  gamer:
-    id: ${GAMER_ID}
+  player:
+    name: ${GAMER_ID:gamer_1}
+    sign: ${PLAYER_SIGN:X}
   topic:
-    name: game-moves
-    group-id: movies-consumers
+    game:
+      name: game
+      group-id: ${game.player.name}-game-consumers
+    movies:
+      name: game-moves
+      group-id: ${game.player.name}-movies-consumers
